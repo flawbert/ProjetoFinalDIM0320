@@ -38,6 +38,7 @@ void inicializaMenu() {
 }
 
 void printCampo(char campo[SIZE][SIZE]) {
+    printf("\n");
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
             printf("%c ", campo[i][j]);
@@ -60,7 +61,7 @@ int main() {
 
         int op;
 
-        printf("\n\tESCOLHA: ");
+        printf("\n\t\tESCOLHA: ");
 
         scanf("%d'", &op);
 
