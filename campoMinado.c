@@ -119,15 +119,15 @@ void jogaJogo (char (*campo)[SIZE], char (*campoClone)[SIZE]) {
     while (aux) {
         int x = 0, y = 0;
 
-        printf("\tESCOLHA SUAS COORDENADAS PRA JOGAR\n");
+        printf("\tESCOLHA SUAS COORDENADAS PRA JOGAR\n");  // Faz o usuário escolher as coordenadas que ele deseja para jogar o jogo
         printf("\t\tX: ");
         scanf("%d", &x);
         printf("\t\tY: ");
         scanf("%d", &y);
 
-        if (x > 0 && x < SIZE && y > 0 && y < SIZE) {
+        if (x > 0 && x < SIZE && y > 0 && y < SIZE) {  // Realiza a verificação das coordenadas para que não acesse locais inválidos na matriz
 
-            if (campoClone[x][y] == 'B'){
+            if (campoClone[x][y] == 'B'){  // Verifica se há uma bomba no local, caso não passa adiante
                 printf("\n\n");
                 printaBomba();
                 printf("\n\n\tVoce explodiu....\n\n");
@@ -136,7 +136,7 @@ void jogaJogo (char (*campo)[SIZE], char (*campoClone)[SIZE]) {
             } 
             else {
 
-               campo[x ][y] = campoClone[x][y];
+               campo[x ][y] = campoClone[x][y];  // Compara com a matriz Clone e caso não haja bomba, o elemento recebe o contador da matriz clone no local do '#'
                printCampo(campo);
 
             }
