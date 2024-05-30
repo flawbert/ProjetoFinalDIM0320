@@ -24,6 +24,7 @@ void inicializaCampo(char (*campo)[SIZE]) {
 }
 
 void inicializaMenu() {
+    printf("\n");
     printf("||||||||||||||||||||||||||||||||||||||||||||||\n");
     printf("|||        BEM VINDO AO CAMPO-MINADO       |||\n");
     printf("|||                                        |||\n");
@@ -45,6 +46,7 @@ void printCampo(char campo[SIZE][SIZE]) {
     printf("\n");
 
     for (int i = 0; i < SIZE; i++) {
+        printf("\t");
         for (int j = 0; j < SIZE; j++) {
             printf("%c  ", campo[i][j]);
         }
@@ -52,6 +54,20 @@ void printCampo(char campo[SIZE][SIZE]) {
     }
 
     printf("\n");
+}
+
+void printaBomba() {
+    printf("\t       _.-^^---....,,--\n");
+    printf("\t   _--                  --_\n");
+    printf("\t  <                        >)\n");
+    printf("\t  |                         |\n");
+    printf("\t   \\._                   _./\n");
+    printf("\t      ```--. . , ; .--'''\n");
+    printf("\t            | |   |\n");
+    printf("\t         .-=||  | |=-.\n");
+    printf("\t         `-=#$#&#$#=-'\n");
+    printf("\t            | ;  :|\n");
+    printf("\t   _____.,-##&$@##&#~,._____\n");
 }
 
 void inicializaBombas(int numBomb, char (*campo)[SIZE]) {
@@ -69,80 +85,120 @@ void inicializaBombas(int numBomb, char (*campo)[SIZE]) {
             cont++;
         }
     }
-
-    printCampo(campo);
 }
 
-void sensorBombas (char (*campo)[SIZE], char (*campoClone)[SIZE]) {  // NECESSITA DE CORREÇÃO NA VARREDURA DA MATRIX 3X3 PARA AS BOMBAS ADJACENTES
-    char bombas[9] = {'0', '1', '2', '3', '4', '5', '6', '7', '8'};
+void sensorBombas (char (*campo)[SIZE], char (*campoClone)[SIZE]) { 
+    char bombas[9] = {'0', '1', '2', '3', '4', '5', '6', '7', '8'}; // utiliza char ao invés de números
     int contaBomba = 0;
 
-    for (int i = 0; i < SIZE; i++) {
-        for (int j = 0; j < SIZE; j++) {
-            if (campo[i][j] != 'B' && i > 0 && j > 0) {
+    for (int i = 1; i < SIZE; i++) {
+        for (int j = 1; j < SIZE; j++) {
+            if (campo[i][j] != 'B' && i > 0 && j > 0) { // If para que na varredura do loop ele altere apenas as células sem bombas
                 contaBomba = 0;
 
                 for (int k = -1; k <= 1; k++) {
-                    for (int q = -1; q <= 1; q++) {
+                    for (int q = -1; q <= 1; q++) { // Loop de varredura de matriz ao redor da célula
+                        int new_i = i + k;
+                        int new_j = j + q;
 
-                        //if (i + k < SIZE && j + q < SIZE){
-                            if (campo[i + k][j + q] == 'B') contaBomba += 1;
-                        //}
+                        if (new_i > 0 && new_i < SIZE && new_j > 0 && new_j < SIZE && campo[new_i][new_j] == 'B') contaBomba++; // verificação de tamanho da varredura para não varrer fora da matriz disponível
                         
                     }
                 }
 
                 campoClone[i][j] = bombas[contaBomba];
             }
+            else campoClone[i][j] = 'B';
         }
     }
-
-    printCampo(campoClone);
 }
+
+void jogaJogo (char (*campo)[SIZE], char (*campoClone)[SIZE]) {
+    int aux = 1;
+
+    while (aux) {
+        int x = 0, y = 0;
+
+        printf("\tESCOLHA SUAS COORDENADAS PRA JOGAR\n");
+        printf("\t\tX: ");
+        scanf("%d", &x);
+        printf("\t\tY: ");
+        scanf("%d", &y);
+
+        if (x > 0 && x < SIZE && y > 0 && y < SIZE) {
+
+            if (campoClone[x][y] == 'B'){
+                printf("\n\n");
+                printaBomba();
+                printf("\n\n\tVoce explodiu....\n\n");
+
+                aux = 0;
+            } 
+            else {
+
+               campo[x ][y] = campoClone[x][y];
+               printCampo(campo);
+
+            }
+
+        }
+        else printf("\n\tEscolha invalida, tente novamente.\n");
+    }
+
+    
+}
+
 
 int main() {
     int aux = 1;
 
-    while (aux) {
+    do {
 
-        char campo[SIZE][SIZE], campoBombas[SIZE][SIZE], campoContador[SIZE][SIZE];
+        char campo[SIZE][SIZE], campoBombas[SIZE][SIZE], campoJogo[SIZE][SIZE];
         
         inicializaMenu();
 
         int op;
 
-        printf("\n\t\tESCOLHA: ");
+        printf("\n\t\t  ESCOLHA: ");
 
         scanf("%d", &op);
 
         inicializaCampo(campo);
         inicializaCampo(campoBombas);
-        inicializaCampo(campoContador);
+        inicializaCampo(campoJogo);
 
-        printCampo(campo);
 
         switch (op) {
             case 1:
+                printCampo(campo);
                 inicializaBombas(10, campoBombas);
-                sensorBombas(campo, campoBombas);
+                sensorBombas(campoBombas, campoJogo);
+                jogaJogo(campo, campoJogo);
                 break;
             case 2:
-                inicializaBombas(20, campoBombas);
-                sensorBombas(campo, campoBombas);
+                printCampo(campo);
+                inicializaBombas(26, campoBombas);
+                sensorBombas(campoBombas, campoJogo);
+                jogaJogo(campo, campoJogo);
                 break;
             case 3:
-                inicializaBombas(45, campoBombas);
-                sensorBombas(campo, campoBombas);
+                printCampo(campo);
+                inicializaBombas(57, campoBombas);
+                sensorBombas(campoBombas, campoJogo);
+                jogaJogo(campo, campoJogo);
                 break;
             case 4:
+                printCampo(campo);
                 inicializaBombas(80, campoBombas);
-                sensorBombas(campo, campoBombas);
+                sensorBombas(campoBombas, campoJogo);
+                jogaJogo(campo, campoJogo);
                 break;
             default:
                 aux = 0;
                 break;
         }
-    }
+    } while (aux);
 
     return 0;
 }
