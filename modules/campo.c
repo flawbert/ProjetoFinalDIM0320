@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "campo.h"
+#include "impl/campo.h"
 
 void inicializaCampo(char (*campo)[SIZE]) {
     for (int i = 0; i < SIZE; i++) {

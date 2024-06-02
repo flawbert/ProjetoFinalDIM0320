@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "jogo.h"
-#include "campo.h"
+#include "impl/jogo.h"
+#include "impl/campo.h"
 
 void inicializaBombas(int numBomb, char (*campo)[SIZE]) {
     srand(time(NULL));
@@ -70,7 +70,21 @@ void jogaJogo (char (*campo)[SIZE], char (*campoClone)[SIZE], int numBomb) {
             } 
             else {
 
-               campo[x ][y] = campoClone[x][y];  // Compara com a matriz Clone e caso não haja bomba, o elemento recebe o contador da matriz clone no local do '#'
+                for (int i = -1; i <= 1; i++) {
+                    for (int j = -1; j <=1; j++) {
+                        if (campoClone[x+i][y+j] == 'B') {
+                            int fakeBomb = 0;
+                            fakeBomb = rand() % 9;
+                            campo[x+i][y+j] = fakeBomb;
+                        }
+                        else if (x + i == x && y + j == y) {
+                            campo[x + i][y + j] = '-';
+                        }
+                        else if (campo[x + i][y + j] == '-') campo[x + i][ y + j] = '-';
+                        else campo[x+i][y+j] = campoClone[x+i][y+j];
+                    }
+                }
+                
                freeFields--;
                printCampo(campo);
 

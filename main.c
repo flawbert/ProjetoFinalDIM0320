@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "campo.h"
-#include "jogo.h"
+#include "modules/impl/campo.h"
+#include "modules/impl/jogo.h"
 
 int main() {
     int aux = 1;
