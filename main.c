@@ -25,25 +25,25 @@ int main() {
                 printCampo(campo);
                 inicializaBombas(10, campoBombas);
                 sensorBombas(campoBombas, campoJogo);
-                jogaJogo(campo, campoJogo, 10);
+                jogaJogo(campo, campoJogo);
                 break;
             case 2:
                 printCampo(campo);
                 inicializaBombas(26, campoBombas);
                 sensorBombas(campoBombas, campoJogo);
-                jogaJogo(campo, campoJogo, 26);
+                jogaJogo(campo, campoJogo);
                 break;
             case 3:
                 printCampo(campo);
                 inicializaBombas(57, campoBombas);
                 sensorBombas(campoBombas, campoJogo);
-                jogaJogo(campo, campoJogo, 57);
+                jogaJogo(campo, campoJogo);
                 break;
             case 4:
                 printCampo(campo);
                 inicializaBombas(80, campoBombas);
                 sensorBombas(campoBombas, campoJogo);
-                jogaJogo(campo, campoJogo, 80);
+                jogaJogo(campo, campoJogo);
                 break;
             case 5:
                 mostraInstrucoes();

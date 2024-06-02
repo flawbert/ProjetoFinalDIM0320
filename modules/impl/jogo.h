@@ -5,6 +5,6 @@
 
 void inicializaBombas(int numBomb, char (*campo)[SIZE]);
 void sensorBombas(char (*campo)[SIZE], char (*campoClone)[SIZE]);
-void jogaJogo(char (*campo)[SIZE], char (*campoClone)[SIZE], int numBomb);
+void jogaJogo(char (*campo)[SIZE], char (*campoClone)[SIZE]);
 
 #endif
