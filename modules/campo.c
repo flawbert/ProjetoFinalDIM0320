@@ -74,7 +74,8 @@ void mostraInstrucoes() {
     printf("|||     revelar os campos.                    |||\n");
     printf("|||  4. Quando voce revela um campo, o jogo   |||\n");
     printf("|||     mostra quantas bombas estao ao redor  |||\n");
-    printf("|||     desse campo.                          |||\n");
+    printf("|||     dos campos em volta desse campo, o    |||\n");
+    printf("|||     marcando como '-'.                    |||\n");
     printf("|||  5. Se voce revelar uma bomba, voce perde.|||\n");
     printf("|||  6. O objetivo eh revelar todos os campos |||\n");
     printf("|||     sem bombas.                           |||\n");
