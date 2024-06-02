@@ -113,13 +113,17 @@ void sensorBombas (char (*campo)[SIZE], char (*campoClone)[SIZE]) {
     }
 }
 
-void jogaJogo (char (*campo)[SIZE], char (*campoClone)[SIZE]) {
+void jogaJogo (char (*campo)[SIZE], char (*campoClone)[SIZE], int numBomb) {
     int aux = 1;
+    int freeFields = 81 - numBomb;
 
     while (aux) {
         int x = 0, y = 0;
 
+        printf("\tRESTAM %d CAMPOS LIVRES...\n", freeFields);
         printf("\tESCOLHA SUAS COORDENADAS PRA JOGAR\n");  // Faz o usuário escolher as coordenadas que ele deseja para jogar o jogo
+        printf("\t(DIGITE X: 0 E Y: 0 PARA SAIR DO JOGO)\n"); // Indica como o usuário sai do jogo durante ele
+
         printf("\t\tX: ");
         scanf("%d", &x);
         printf("\t\tY: ");
@@ -132,17 +136,25 @@ void jogaJogo (char (*campo)[SIZE], char (*campoClone)[SIZE]) {
                 printaBomba();
                 printf("\n\n\tVoce explodiu....\n\n");
 
+                printf("\tAINDA RESTAVAM %d CAMPOS LIVRES", freeFields);
+
                 aux = 0;
             } 
             else {
 
                campo[x ][y] = campoClone[x][y];  // Compara com a matriz Clone e caso não haja bomba, o elemento recebe o contador da matriz clone no local do '#'
+               freeFields--;
                printCampo(campo);
 
             }
 
         }
-        else printf("\n\tEscolha invalida, tente novamente.\n");
+        else if (x == 0 && y == 0) {
+            printf("\tVOCE ACABOU DE SAIR DO JOGO\n");
+            printf("\tRESTAVAM %d CAMPOS LIVRES\n", freeFields);
+            aux = 0;
+        }
+        else printf("\n\n\tESCOLHA INVALIDA, TENTE NOVAMENTE.\n\n");
     }
 
     
@@ -174,25 +186,25 @@ int main() {
                 printCampo(campo);
                 inicializaBombas(10, campoBombas);
                 sensorBombas(campoBombas, campoJogo);
-                jogaJogo(campo, campoJogo);
+                jogaJogo(campo, campoJogo, 10);
                 break;
             case 2:
                 printCampo(campo);
                 inicializaBombas(26, campoBombas);
                 sensorBombas(campoBombas, campoJogo);
-                jogaJogo(campo, campoJogo);
+                jogaJogo(campo, campoJogo, 26);
                 break;
             case 3:
                 printCampo(campo);
                 inicializaBombas(57, campoBombas);
                 sensorBombas(campoBombas, campoJogo);
-                jogaJogo(campo, campoJogo);
+                jogaJogo(campo, campoJogo, 57);
                 break;
             case 4:
                 printCampo(campo);
                 inicializaBombas(80, campoBombas);
                 sensorBombas(campoBombas, campoJogo);
-                jogaJogo(campo, campoJogo);
+                jogaJogo(campo, campoJogo, 80);
                 break;
             default:
                 aux = 0;
