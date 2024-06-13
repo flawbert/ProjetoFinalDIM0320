@@ -42,36 +42,17 @@ void sensorBombas(char (*campo)[SIZE], char (*campoClone)[SIZE]) {
 }
 
 
-void verificaCampo(char (*campo)[SIZE], char (*campoClone)[SIZE], int x, int y) {
+void verificaCampo(char (*campo)[SIZE], char (*campoClone)[SIZE], int x, int y) { // Faz a varredura do campo ao redor dele
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
             int newX = x + i;
             int newY = y + j;
-            if (campo[newX][newY] != 'B' && campo[newX][newY] != '0') {
+            if (campoClone[newX][newY] != 'B') {
                 campo[newX][newY] = campoClone[newX][newY];
-            }else if(campo[newX][newY]=='0'){
-                verificaCampo(campo, campoClone, newX, newY);
             }
         }
     }
 }
-
-/*void verificaCampo(char (*campo)[SIZE], char (*campoClone)[SIZE], int x, int y) {
-    // Verifica se o campo atual está dentro dos limites e se não é uma bomba
-    if (x < 0 || x >= SIZE || y < 0 || y >= SIZE || campoClone[x][y] != '0') {
-        return;
-    }
-
-    // Marca o campo atual como descoberto
-    campo[x][y] = campoClone[x][y];
-
-    // Verifica os 8 campos ao redor
-    for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j++) {
-            verificaCampo(campo, campoClone, x + i, y + j);
-        }
-    }
-}*/
 
 
 
@@ -83,12 +64,13 @@ void jogaJogo (char (*campo)[SIZE], char (*campoClone)[SIZE]) {
 
 
         printf("\tESCOLHA SUAS COORDENADAS PRA JOGAR\n");  // Faz o usuário escolher as coordenadas que ele deseja para jogar o jogo
+        printf("\tAPENAS CAMPOS VAZIOS SAO VALIDOS\n");
         printf("\t(DIGITE X: 0 E Y: 0 PARA SAIR DO JOGO)\n"); // Indica como o usuário sai do jogo durante ele
 
         printf("\t\tX: ");
-        scanf("%d", &x);
-        printf("\t\tY: ");
         scanf("%d", &y);
+        printf("\t\tY: ");
+        scanf("%d", &x);
 
         if (x > 0 && x < SIZE && y > 0 && y < SIZE) {  // Realiza a verificação das coordenadas para que não acesse locais inválidos na matriz
 
@@ -105,10 +87,9 @@ void jogaJogo (char (*campo)[SIZE], char (*campoClone)[SIZE]) {
 
                 verificaCampo(campo, campoClone, x, y);
 
-                campo[x ][y] = campoClone[x][y];  // Compara com a matriz Clone e caso não haja bomba, o elemento recebe o contador da matriz clone no local do '#'
+                campo[x][y] = campoClone[x][y];  // Compara com a matriz Clone e caso não haja bomba, o elemento recebe o contador da matriz clone no local do '#'
                 
                printCampo(campo);
-               printCampo(campoClone);
 
             }
 
