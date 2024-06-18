@@ -50,7 +50,7 @@ void printCampo(char campo[SIZE][SIZE]) {
     printf("\n");
 }
 
-void printaBomba() {
+void printBomba() {
     printf("\t       _.-^^---....,,--\n");
     printf("\t   _--                  --_\n");
     printf("\t  <                        >)\n");

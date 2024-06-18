@@ -42,7 +42,7 @@ void sensorBombas(char (*campo)[SIZE], char (*campoClone)[SIZE]) {
 }
 
 void verificaCampo(char (*campo)[SIZE], char (*campoClone)[SIZE], int x, int y, int *points, int pointsValue) {
-    if (x <= 0 || x >= SIZE || y <= 0 || y >= SIZE || campo[x][y] != '#' || campo[x][y] == '>') {
+    if (x <= 0 || x >= SIZE || y <= 0 || y >= SIZE || campo[x][y] != '#') {
         return; // Condição de parada: fora dos limites ou já revelado ou igual a uma bandeira
     }
 
@@ -65,38 +65,46 @@ void verificaCampo(char (*campo)[SIZE], char (*campoClone)[SIZE], int x, int y, 
     *points += pointsValue;
 }
 
-void flagPosition(char (*campo)[SIZE]) {
+int flagPosition(char (*campo)[SIZE]) {
     int x, y;
 
-    while (1) {
-        printf("\tESCOLHA SUAS COORDENADAS PARA POSICIONAR A BANDEIRA\n");
-        printf("\tX: ");
-        scanf("%d", &y);
-        printf("\tY: ");
-        scanf("%d", &x);
+    printf("\tESCOLHA AS COORDENADAS PARA POSICIONAR OU RETIRAR UMA BANDEIRA\n");
+    printf("\tX: ");
+    scanf("%d", &y);
+    printf("\tY: ");
+    scanf("%d", &x);
 
-        if (x > 0 && x < SIZE && y > 0 && y < SIZE && campo[x][y] == '#') {
-            campo[x][y] = '>';
-            break;
-        }
-        else {
+    if (x > 0 && x < SIZE && y > 0 && y < SIZE) {
+        if (campo[x][y] == '#') {
+            campo[x][y] = '>'; // Coloca a bandeira
+            return 1; // Indica que uma bandeira foi colocada
+        } else if (campo[x][y] == '>') {
+            campo[x][y] = '#'; // Remove a bandeira
+            return -1; // Indica que uma bandeira foi removida
+        } else {
             printf("\tPOSICAO INVALIDA PARA BANDEIRA, TENTE NOVAMENTE.\n");
+            return 0; // Retorna 0 indicando que nenhuma ação foi tomada
         }
+    } else {
+        printf("\tPOSICAO INVALIDA PARA BANDEIRA, TENTE NOVAMENTE.\n");
+        return 0; // Retorna 0 indicando que nenhuma ação foi tomada
     }
-
-    return;
 }
 
-void flagSuggestion (int *numFlags, char (*campo)[SIZE]) {
-    printf("\tVOCE QUER POSICIONAR UMA BANDEIRA( Y - SIM || N - NAO)? "); // Posicionamento da bandeira 
+void flagSuggestion (int *numFlags, char (*campo)[SIZE]) { // Posicionamento da bandeira 
     char opFlag;
 
     while (1) {
+        printf("\tVOCE QUER POSICIONAR OU RETIRAR UMA BANDEIRA( Y - SIM || N - NAO)? ");
         scanf(" %c", &opFlag);
 
         if (opFlag == 'Y') {
-            flagPosition(campo); // Chamada da função para posicionar bandeira
-            *numFlags--; // Caso ela retorne, o numero de flags disponiveis que é igual ao numero de bombas zera
+            int result = flagPosition(campo); // Chamada da função para posicionar ou remover bandeira
+            if (result == 1 && *numFlags > 0) {
+                (*numFlags)--; // Decrementa o número de bandeiras disponíveis se uma bandeira foi colocada
+            } else if (result == -1) {
+                (*numFlags)++; // Incrementa o número de bandeiras disponíveis se uma bandeira foi removida
+            }
             break;
         }
         else if (opFlag == 'N') {
@@ -154,7 +162,7 @@ void jogaJogo (char (*campo)[SIZE], char (*campoClone)[SIZE], int *points, int p
 
             if (campoClone[x][y] == 'B'){  // Verifica se há uma bomba no local, caso não passa adiante
                 printf("\n\n");
-                printaBomba();
+                printBomba();
                 printf("\n\n\tVoce explodiu....\n\n");
 
                 return;

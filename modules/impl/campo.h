@@ -9,7 +9,7 @@ void inicializaMenu(int *points);
 
 void printCampo(char campo[SIZE][SIZE]);
 
-void printaBomba();
+void printBomba();
 
 void mostraInstrucoes();
 

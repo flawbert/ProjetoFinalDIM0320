@@ -9,7 +9,7 @@ void sensorBombas(char (*campo)[SIZE], char (*campoClone)[SIZE]);
 
 void verificaCampo(char (*campo)[SIZE], char (*campoClone)[SIZE], int x, int y, int *points, int pointsValue);
 
-void flagPosition(char (*campo)[SIZE]);
+int flagPosition(char (*campo)[SIZE]);
 
 void flagSuggestion (int *numFlags, char (*campo)[SIZE]);
 
