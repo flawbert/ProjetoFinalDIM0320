@@ -41,27 +41,105 @@ void sensorBombas(char (*campo)[SIZE], char (*campoClone)[SIZE]) {
     }
 }
 
+void verificaCampo(char (*campo)[SIZE], char (*campoClone)[SIZE], int x, int y, int *points, int pointsValue) {
+    if (x <= 0 || x >= SIZE || y <= 0 || y >= SIZE || campo[x][y] != '#' || campo[x][y] == '>') {
+        return; // Condição de parada: fora dos limites ou já revelado ou igual a uma bandeira
+    }
 
-void verificaCampo(char (*campo)[SIZE], char (*campoClone)[SIZE], int x, int y) { // Faz a varredura do campo ao redor dele
-    for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j++) {
-            int newX = x + i;
-            int newY = y + j;
-            if (campoClone[newX][newY] != 'B') {
-                campo[newX][newY] = campoClone[newX][newY];
+    campo[x][y] = campoClone[x][y]; // Revela o campo atual
+
+    if (campo[x][y] == '0') campo[x][y] = '-'; // Substitui o '0' por '-' indicando campo nulo
+
+    if (campoClone[x][y] == '0') { // Só propaga se o campo for '0'
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                int newX = x + i;
+                int newY = y + j;
+                if (i != 0 || j != 0) { // Evita chamar a função recursivamente sobre o mesmo campo
+                    verificaCampo(campo, campoClone, newX, newY, points, pointsValue); // Chamada recursiva nos campos vazios
+                }
             }
+        }
+    }
+
+    *points += pointsValue;
+}
+
+void flagPosition(char (*campo)[SIZE]) {
+    int x, y;
+
+    while (1) {
+        printf("\tESCOLHA SUAS COORDENADAS PARA POSICIONAR A BANDEIRA\n");
+        printf("\tX: ");
+        scanf("%d", &y);
+        printf("\tY: ");
+        scanf("%d", &x);
+
+        if (x > 0 && x < SIZE && y > 0 && y < SIZE && campo[x][y] == '#') {
+            campo[x][y] = '>';
+            break;
+        }
+        else {
+            printf("\tPOSICAO INVALIDA PARA BANDEIRA, TENTE NOVAMENTE.\n");
+        }
+    }
+
+    return;
+}
+
+void flagSuggestion (int *numFlags, char (*campo)[SIZE]) {
+    printf("\tVOCE QUER POSICIONAR UMA BANDEIRA( Y - SIM || N - NAO)? "); // Posicionamento da bandeira 
+    char opFlag;
+
+    while (1) {
+        scanf(" %c", &opFlag);
+
+        if (opFlag == 'Y') {
+            flagPosition(campo); // Chamada da função para posicionar bandeira
+            *numFlags--; // Caso ela retorne, o numero de flags disponiveis que é igual ao numero de bombas zera
+            break;
+        }
+        else if (opFlag == 'N') {
+            break;
+        }
+        else {
+            printf("\tA OPCAO NAO EH VALIDA, TENTE NOVAMENTE.\n");
         }
     }
 }
 
+int verificaVitoria (char campo[SIZE][SIZE], char campoClone[SIZE][SIZE]) {
+    for (int i = 1; i < SIZE; i++) {
+        for (int j = 1; j < SIZE; j++) {
+            if (campoClone[i][j] != 'B' && campo[i][j] == '#') {
+                return 0; // Ainda há células não reveladas, continuando o jogo
+            }
+        }
+    }
+    return 1; // Todas as células sem bombas foram reveladas, significando vitória
+}
 
+void printVitoria () {
+    printf("\n\n");
+    printf("\t|||||||||||||||||||||||||||||||||||||||||||||||||\n");
+    printf("\t|||                                           |||\n");
+    printf("\t|||               PARABENS!                   |||\n");
+    printf("\t|||            VOCE VENCEU O JOGO!            |||\n");
+    printf("\t|||                                           |||\n");
+    printf("\t|||||||||||||||||||||||||||||||||||||||||||||||||\n");
+    printf("\n\n");
 
-void jogaJogo (char (*campo)[SIZE], char (*campoClone)[SIZE]) {
+}
+
+void jogaJogo (char (*campo)[SIZE], char (*campoClone)[SIZE], int *points, int pointsValue, int numFlags) {
     int aux = 1;
+
 
     while (aux) {
         int x = 0, y = 0;
 
+        printf("\tPONTUACAO: %d\n", *points);
+        printf("\tBANDEIRAS DISPONIVEIS: %d\n", numFlags);
 
         printf("\tESCOLHA SUAS COORDENADAS PRA JOGAR\n");  // Faz o usuário escolher as coordenadas que ele deseja para jogar o jogo
         printf("\tAPENAS CAMPOS VAZIOS SAO VALIDOS\n");
@@ -79,19 +157,28 @@ void jogaJogo (char (*campo)[SIZE], char (*campoClone)[SIZE]) {
                 printaBomba();
                 printf("\n\n\tVoce explodiu....\n\n");
 
-
-                aux = 0;
+                return;
             }
             else if (campo[x][y] != '#') printf("\n\tESCOLHA INVALIDA, TENTE NOVAMENTE.\n\n");
             else {
 
-                verificaCampo(campo, campoClone, x, y);
-
-                campo[x][y] = campoClone[x][y];  // Compara com a matriz Clone e caso não haja bomba, o elemento recebe o contador da matriz clone no local do '#'
+                if (campoClone[x][y] == '0') verificaCampo(campo, campoClone, x, y, points, pointsValue);
+                else {
+                    campo[x][y] = campoClone[x][y];  // Compara com a matriz Clone e caso não haja bomba, o elemento recebe o contador da matriz clone no local do '#'
+                }   
                 
-               printCampo(campo);
+                *points += pointsValue;
+
+                printCampo(campo);
 
             }
+
+            if (verificaVitoria(campo, campoClone)) {
+                printVitoria();
+                return;
+            }
+
+            flagSuggestion(&numFlags, campo);  // Chama função que sugestiona o posicionamento de bandeiras
 
         }
         else if (x == 0 && y == 0) {
@@ -101,5 +188,4 @@ void jogaJogo (char (*campo)[SIZE], char (*campoClone)[SIZE]) {
         else printf("\n\n\tESCOLHA INVALIDA, TENTE NOVAMENTE.\n\n");
     }
 
-    
 }

@@ -4,9 +4,13 @@
 #define SIZE 10
 
 void inicializaCampo(char (*campo)[SIZE]);
-void inicializaMenu();
+
+void inicializaMenu(int *points);
+
 void printCampo(char campo[SIZE][SIZE]);
+
 void printaBomba();
+
 void mostraInstrucoes();
 
 #endif

@@ -17,10 +17,12 @@ void inicializaCampo(char (*campo)[SIZE]) {
     }
 }
 
-void inicializaMenu() {
+void inicializaMenu(int *points) {
     printf("\n");
     printf("||||||||||||||||||||||||||||||||||||||||||||||\n");
     printf("|||        BEM VINDO AO CAMPO-MINADO       |||\n");
+    printf("|||                                        |||\n");
+    printf("|||            SEUS PONTOS: %-7d        |||\n", *points);
     printf("|||                                        |||\n");
     printf("|||         ESCOLHA SUA DIFICULDADE        |||\n");
     printf("|||                                        |||\n");
@@ -68,19 +70,34 @@ void mostraInstrucoes() {
     printf("|||            INSTRUCOES DO JOGO             |||\n");
     printf("|||                                           |||\n");
     printf("|||  1. Escolha a dificuldade do jogo.        |||\n");
+    printf("|||                                           |||\n");
     printf("|||  2. O campo de jogo sera gerado com as    |||\n");
     printf("|||     bombas posicionadas aleatoriamente.   |||\n");
+    printf("|||                                           |||\n");
     printf("|||  3. Voce deve escolher coordenadas para   |||\n");
     printf("|||     revelar os campos.                    |||\n");
+    printf("|||                                           |||\n");
     printf("|||  4. Quando voce revela um campo, o jogo   |||\n");
     printf("|||     mostra quantas bombas estao ao redor  |||\n");
     printf("|||     dos campos em volta desse campo, o    |||\n");
     printf("|||     marcando como '-'.                    |||\n");
+    printf("|||                                           |||\n");
     printf("|||  5. Se voce revelar uma bomba, voce perde.|||\n");
+    printf("|||                                           |||\n");
     printf("|||  6. O objetivo eh revelar todos os campos |||\n");
     printf("|||     sem bombas.                           |||\n");
+    printf("|||                                           |||\n");
     printf("|||  7. Voce pode sair do jogo a qualquer     |||\n");
     printf("|||     momento digitando 0 para X e Y.       |||\n");
+    printf("|||                                           |||\n");
+    printf("|||  8. Voce pode colocar bandeiras em        |||\n");
+    printf("|||     campos suspeitos digitando 'Y' quando |||\n");
+    printf("|||     for solicitado, ou negando ao digitar |||\n");
+    printf("|||     'N'.                                  |||\n");
+    printf("|||                                           |||\n");
+    printf("|||  9. Apos revelar todos os campos sem      |||\n");
+    printf("|||     bombas, voce acumula pontos e vence   |||\n");
+    printf("|||     o jogo.                               |||\n");
     printf("|||                                           |||\n");
     printf("|||||||||||||||||||||||||||||||||||||||||||||||||\n");
     printf("\n\n");

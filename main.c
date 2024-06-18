@@ -5,11 +5,12 @@
 
 int main() {
     int aux = 1;
+    int pontos = 0;
 
     do {
         char campo[SIZE][SIZE], campoBombas[SIZE][SIZE], campoJogo[SIZE][SIZE];
 
-        inicializaMenu();
+        inicializaMenu(&pontos);
 
         int op;
 
@@ -25,25 +26,25 @@ int main() {
                 printCampo(campo);
                 inicializaBombas(10, campoBombas);
                 sensorBombas(campoBombas, campoJogo);
-                jogaJogo(campo, campoJogo);
+                jogaJogo(campo, campoJogo, &pontos, 3, 10);
                 break;
             case 2:
                 printCampo(campo);
                 inicializaBombas(26, campoBombas);
                 sensorBombas(campoBombas, campoJogo);
-                jogaJogo(campo, campoJogo);
+                jogaJogo(campo, campoJogo, &pontos, 15, 26);
                 break;
             case 3:
                 printCampo(campo);
                 inicializaBombas(57, campoBombas);
                 sensorBombas(campoBombas, campoJogo);
-                jogaJogo(campo, campoJogo);
+                jogaJogo(campo, campoJogo, &pontos, 30, 57);
                 break;
             case 4:
                 printCampo(campo);
                 inicializaBombas(80, campoBombas);
                 sensorBombas(campoBombas, campoJogo);
-                jogaJogo(campo, campoJogo);
+                jogaJogo(campo, campoJogo, &pontos, 200, 80);
                 break;
             case 5:
                 mostraInstrucoes();
