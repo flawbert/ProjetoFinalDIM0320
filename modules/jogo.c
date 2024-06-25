@@ -77,9 +77,11 @@ int flagPosition(char (*campo)[SIZE]) {
     if (x > 0 && x < SIZE && y > 0 && y < SIZE) {
         if (campo[x][y] == '#') {
             campo[x][y] = '>'; // Coloca a bandeira
+            printCampo(campo); // Printa o Campo
             return 1; // Indica que uma bandeira foi colocada
         } else if (campo[x][y] == '>') {
             campo[x][y] = '#'; // Remove a bandeira
+            printCampo(campo); // Printa o Campo
             return -1; // Indica que uma bandeira foi removida
         } else {
             printf("\tPOSICAO INVALIDA PARA BANDEIRA, TENTE NOVAMENTE.\n");
@@ -99,6 +101,7 @@ void flagSuggestion (int *numFlags, char (*campo)[SIZE]) { // Posicionamento da 
         scanf(" %c", &opFlag);
 
         if (opFlag == 'Y') {
+            printCampo(campo); // Printa o Campo
             int result = flagPosition(campo); // Chamada da função para posicionar ou remover bandeira
             if (result == 1 && *numFlags > 0) {
                 (*numFlags)--; // Decrementa o número de bandeiras disponíveis se uma bandeira foi colocada
