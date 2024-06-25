@@ -50,7 +50,7 @@ int main() {
                 mostraInstrucoes();
                 break;
             default:
-                aux = 0;
+                printf("\n\ttentativa invalida, tente novamente\n\n");
                 break;
         }
     } while (aux);

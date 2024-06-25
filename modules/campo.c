@@ -15,6 +15,7 @@ void inicializaCampo(char (*campo)[SIZE]) {
             }
         }
     }
+
 }
 
 void inicializaMenu(int *points) {
