@@ -46,7 +46,7 @@ void printCampo(char campo[SIZE][SIZE]) {
     for (int i = 0; i < SIZE; i++) {
         printf("\t");
         for (int j = 0; j < SIZE; j++) {
-            if (campo[i][j] == '>') printf(BLUE "%c " RESET, campo[i][j]);
+            if (campo[i][j] == '>') printf(BLUE "%c  " RESET, campo[i][j]);
             else printf("%c  ", campo[i][j]);
         }
         printf("\n");

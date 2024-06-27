@@ -66,7 +66,7 @@ void verificaCampo(char (*campo)[SIZE], char (*campoClone)[SIZE], int x, int y, 
     *points += pointsValue;
 }
 
-int flagPosition(char (*campo)[SIZE]) {
+int flagPosition(char (*campo)[SIZE], int *numFlags) {
     int x, y;
 
     printf("\tESCOLHA AS COORDENADAS PARA POSICIONAR OU RETIRAR UMA BANDEIRA\n");
@@ -74,9 +74,9 @@ int flagPosition(char (*campo)[SIZE]) {
     scanf("%d", &y);
     printf("\tY: ");
     scanf("%d", &x);
-
+    
     if (x > 0 && x < SIZE && y > 0 && y < SIZE) {
-        if (campo[x][y] == '#') {
+        if (campo[x][y] == '#' && *numFlags > 0) {
             campo[x][y] = '>'; // Coloca a bandeira
             printCampo(campo); // Printa o Campo
             return 1; // Indica que uma bandeira foi colocada
@@ -84,6 +84,9 @@ int flagPosition(char (*campo)[SIZE]) {
             campo[x][y] = '#'; // Remove a bandeira
             printCampo(campo); // Printa o Campo
             return -1; // Indica que uma bandeira foi removida
+        } else if (*numFlags == 0 && campo[x][y] == '#') {
+            printf(RED "\n\tVOCE NAO PODE POSICIONAR BANDEIRAS, APENAS RETIRAR-LAS\n\n" RESET); // Indica que só pode retirar as bandeiras
+            flagPosition(campo, numFlags); // Chama a recursão forçando o usuario a retirar a bandeira ao inves de posicionar
         } else {
             printf(RED "\tPOSICAO INVALIDA PARA BANDEIRA, TENTE NOVAMENTE.\n" RESET);
             return 0; // Retorna 0 indicando que nenhuma ação foi tomada
@@ -103,7 +106,7 @@ void flagSuggestion (int *numFlags, char (*campo)[SIZE]) { // Posicionamento da 
 
         if (opFlag == 'Y') {
             printCampo(campo); // Printa o Campo
-            int result = flagPosition(campo); // Chamada da função para posicionar ou remover bandeira
+            int result = flagPosition(campo, numFlags); // Chamada da função para posicionar ou remover bandeira
             if (result == 1 && *numFlags > 0) {
                 (*numFlags)--; // Decrementa o número de bandeiras disponíveis se uma bandeira foi colocada
             } else if (result == -1) {
