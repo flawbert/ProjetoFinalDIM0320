@@ -50,7 +50,8 @@ int main() {
                 mostraInstrucoes();
                 break;
             default:
-                printf("\n\ttentativa invalida, tente novamente\n\n");
+                printf("\n\n\tATE A PROXIMA\n\n\tREINICIE O JOGO\n\n");
+                aux = 0;
                 break;
         }
     } while (aux);
