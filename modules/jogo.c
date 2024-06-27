@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "impl/tools.h"
 #include "impl/jogo.h"
 #include "impl/campo.h"
 
@@ -84,12 +85,12 @@ int flagPosition(char (*campo)[SIZE]) {
             printCampo(campo); // Printa o Campo
             return -1; // Indica que uma bandeira foi removida
         } else {
-            printf("\tPOSICAO INVALIDA PARA BANDEIRA, TENTE NOVAMENTE.\n");
+            printf(RED "\tPOSICAO INVALIDA PARA BANDEIRA, TENTE NOVAMENTE.\n" RESET);
             return 0; // Retorna 0 indicando que nenhuma ação foi tomada
         }
     } else {
-        printf("\tPOSICAO INVALIDA PARA BANDEIRA, TENTE NOVAMENTE.\n");
-        return 0; // Retorna 0 indicando que nenhuma ação foi tomada
+        printf(RED "\tPOSICAO INVALIDA PARA BANDEIRA, TENTE NOVAMENTE NA PROXIMA RODADA.\n" RESET);
+        return 0;
     }
 }
 
@@ -97,7 +98,7 @@ void flagSuggestion (int *numFlags, char (*campo)[SIZE]) { // Posicionamento da 
     char opFlag;
 
     while (1) {
-        printf("\tVOCE QUER POSICIONAR OU RETIRAR UMA BANDEIRA( Y - SIM || N - NAO)? ");
+        printf(BLUE "\tVOCE QUER POSICIONAR OU RETIRAR UMA BANDEIRA( Y - SIM || N - NAO)? " RESET);
         scanf(" %c", &opFlag);
 
         if (opFlag == 'Y') {
@@ -114,7 +115,7 @@ void flagSuggestion (int *numFlags, char (*campo)[SIZE]) { // Posicionamento da 
             break;
         }
         else {
-            printf("\tA OPCAO NAO EH VALIDA, TENTE NOVAMENTE.\n");
+            printf(RED "\tA OPCAO NAO EH VALIDA, TENTE NOVAMENTE.\n" RESET);
         }
     }
 }
@@ -131,15 +132,15 @@ int verificaVitoria (char campo[SIZE][SIZE], char campoClone[SIZE][SIZE]) {
 }
 
 void printVitoria () {
+    CLEAR_SCREEN();
     printf("\n\n");
-    printf("\t|||||||||||||||||||||||||||||||||||||||||||||||||\n");
+    printf( GREEN "\t|||||||||||||||||||||||||||||||||||||||||||||||||\n");
     printf("\t|||                                           |||\n");
     printf("\t|||               PARABENS!                   |||\n");
     printf("\t|||            VOCE VENCEU O JOGO!            |||\n");
     printf("\t|||                                           |||\n");
-    printf("\t|||||||||||||||||||||||||||||||||||||||||||||||||\n");
+    printf("\t|||||||||||||||||||||||||||||||||||||||||||||||||\n" RESET);
     printf("\n\n");
-
 }
 
 void jogaJogo (char (*campo)[SIZE], char (*campoClone)[SIZE], int *points, int pointsValue, int numFlags) {
@@ -147,10 +148,13 @@ void jogaJogo (char (*campo)[SIZE], char (*campoClone)[SIZE], int *points, int p
 
 
     while (aux) {
+
+        printCampo(campo);
+
         int x = 0, y = 0;
 
-        printf("\tPONTUACAO: %d\n", *points);
-        printf("\tBANDEIRAS DISPONIVEIS: %d\n", numFlags);
+        printf(GREEN "\tPONTUACAO: %d\n" RESET, *points);
+        printf(BLUE "\tBANDEIRAS DISPONIVEIS: %d\n" RESET, numFlags);
 
         printf("\tESCOLHA SUAS COORDENADAS PRA JOGAR\n");  // Faz o usuário escolher as coordenadas que ele deseja para jogar o jogo
         printf("\tAPENAS CAMPOS VAZIOS SAO VALIDOS\n");
@@ -166,11 +170,11 @@ void jogaJogo (char (*campo)[SIZE], char (*campoClone)[SIZE], int *points, int p
             if (campoClone[x][y] == 'B'){  // Verifica se há uma bomba no local, caso não passa adiante
                 printf("\n\n");
                 printBomba();
-                printf("\n\n\tVoce explodiu....\n\n");
+                printf(RED "\n\n\tVoce explodiu....\n\n" RESET);
 
                 return;
             }
-            else if (campo[x][y] != '#') printf("\n\tESCOLHA INVALIDA, TENTE NOVAMENTE.\n\n");
+            else if (campo[x][y] != '#') printf( RED "\n\tESCOLHA INVALIDA, TENTE NOVAMENTE.\n\n" RESET);
             else {
 
                 if (campoClone[x][y] == '0') verificaCampo(campo, campoClone, x, y, points, pointsValue);
@@ -191,12 +195,13 @@ void jogaJogo (char (*campo)[SIZE], char (*campoClone)[SIZE], int *points, int p
 
             flagSuggestion(&numFlags, campo);  // Chama função que sugestiona o posicionamento de bandeiras
 
+            CLEAR_SCREEN();
         }
         else if (x == 0 && y == 0) {
-            printf("\tVOCE ACABOU DE SAIR DO JOGO\n");
+            printf(RED "\tVOCE ACABOU DE SAIR DO JOGO\n" RESET);
             aux = 0;
         }
-        else printf("\n\n\tESCOLHA INVALIDA, TENTE NOVAMENTE.\n\n");
+        else printf(RED "\n\n\tESCOLHA INVALIDA, TENTE NOVAMENTE.\n\n" RESET);
     }
 
 }

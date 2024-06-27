@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include "impl/campo.h"
 
+
+
 void inicializaCampo(char (*campo)[SIZE]) {
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
@@ -20,7 +22,7 @@ void inicializaCampo(char (*campo)[SIZE]) {
 
 void inicializaMenu(int *points) {
     printf("\n");
-    printf("||||||||||||||||||||||||||||||||||||||||||||||\n");
+    printf(YELLOW "||||||||||||||||||||||||||||||||||||||||||||||\n");
     printf("|||        BEM VINDO AO CAMPO-MINADO       |||\n");
     printf("|||                                        |||\n");
     printf("|||            SEUS PONTOS: %-7d        |||\n", *points);
@@ -36,7 +38,7 @@ void inicializaMenu(int *points) {
     printf("|||                                        |||\n");
     printf("|||           APERTE '0' PARA SAIR         |||\n");
     printf("|||                                        |||\n");
-    printf("||||||||||||||||||||||||||||||||||||||||||||||\n");
+    printf("||||||||||||||||||||||||||||||||||||||||||||||\n" RESET);
 }
 
 void printCampo(char campo[SIZE][SIZE]) {
@@ -44,7 +46,8 @@ void printCampo(char campo[SIZE][SIZE]) {
     for (int i = 0; i < SIZE; i++) {
         printf("\t");
         for (int j = 0; j < SIZE; j++) {
-            printf("%c  ", campo[i][j]);
+            if (campo[i][j] == '>') printf(BLUE "%c " RESET, campo[i][j]);
+            else printf("%c  ", campo[i][j]);
         }
         printf("\n");
     }
@@ -52,7 +55,7 @@ void printCampo(char campo[SIZE][SIZE]) {
 }
 
 void printBomba() {
-    printf("\t       _.-^^---....,,--\n");
+    printf(RED "\t       _.-^^---....,,--\n");
     printf("\t   _--                  --_\n");
     printf("\t  <                        >)\n");
     printf("\t  |                         |\n");
@@ -62,12 +65,12 @@ void printBomba() {
     printf("\t         .-=||  | |=-.\n");
     printf("\t         `-=#$#&#$#=-'\n");
     printf("\t            | ;  :|\n");
-    printf("\t   _____.,-##&$@##&#~,._____\n");
+    printf("\t   _____.,-##&$@##&#~,._____\n" RESET);
 }
 
 void mostraInstrucoes() {
     printf("\n\n");
-    printf("|||||||||||||||||||||||||||||||||||||||||||||||||\n");
+    printf(YELLOW "|||||||||||||||||||||||||||||||||||||||||||||||||\n");
     printf("|||            INSTRUCOES DO JOGO             |||\n");
     printf("|||                                           |||\n");
     printf("|||  1. Escolha a dificuldade do jogo.        |||\n");
@@ -100,6 +103,6 @@ void mostraInstrucoes() {
     printf("|||     bombas, voce acumula pontos e vence   |||\n");
     printf("|||     o jogo.                               |||\n");
     printf("|||                                           |||\n");
-    printf("|||||||||||||||||||||||||||||||||||||||||||||||||\n");
+    printf("|||||||||||||||||||||||||||||||||||||||||||||||||\n" RESET);
     printf("\n\n");
 }
